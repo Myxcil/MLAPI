@@ -1014,7 +1014,7 @@ namespace MLAPI
         {
             if (!rpcDefinition.serverMethods.ContainsKey(hash))
             {
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("ServerRPC request method not found");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("ServerRPC request method not found, hash=" + hash);
                 return null;
 
             }
@@ -1026,7 +1026,7 @@ namespace MLAPI
         {
             if (!rpcDefinition.clientMethods.ContainsKey(hash))
             {
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("ClientRPC request method not found");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("ClientRPC request method not found, has=" + hash);
                 return null;
             }
 
@@ -1153,7 +1153,7 @@ namespace MLAPI
             if (!IsClient && IsRunning)
             {
                 //We are ONLY a server.
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only client and host can invoke ServerRPC");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only client and host can invoke ServerRPC, hash=" + hash);
                 return;
             }
 
@@ -1185,7 +1185,7 @@ namespace MLAPI
             if (!IsClient && IsRunning)
             {
                 //We are ONLY a server.
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only client and host can invoke ServerRPC");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only client and host can invoke ServerRPC, hash=" + hash);
                 return null;
             }
 
@@ -1244,7 +1244,7 @@ namespace MLAPI
             if (!IsServer && IsRunning)
             {
                 //We are NOT a server.
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC, hash=" + hash);
                 return;
             }
 
@@ -1309,7 +1309,7 @@ namespace MLAPI
             if (!IsServer && IsRunning)
             {
                 //We are NOT a server.
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC, hash=" + hash);
                 return;
             }
 
@@ -1355,7 +1355,7 @@ namespace MLAPI
             if (!IsServer && IsRunning)
             {
                 //We are NOT a server.
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC, hash=" + hash);
                 return;
             }
 
@@ -1393,7 +1393,7 @@ namespace MLAPI
             if (!IsServer && IsRunning)
             {
                 //We are NOT a server.
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only clients and host can invoke ClientRPC, hash=" + hash);
                 return null;
             }
 

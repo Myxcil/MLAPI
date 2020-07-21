@@ -283,7 +283,7 @@ namespace MLAPI
                 {
                     if (NetworkConfig.NetworkedPrefabs[i].Prefab.GetComponent<NetworkedObject>() == null)
                     {
-                        if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("The network prefab [" + i + "] does not have a NetworkedObject component");
+                        if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("The network prefab [" + i + "] does not have a NetworkedObject component, gameObject=" + NetworkConfig.NetworkedPrefabs[i].Prefab);
                     }
                     else
                     {

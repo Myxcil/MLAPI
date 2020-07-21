@@ -75,7 +75,7 @@ namespace MLAPI.Messaging
         {
             if (requireOwnership == true && senderClientId != target.OwnerClientId)
             {
-                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only owner can invoke ServerRPC that is marked to require ownership");
+                if (LogHelper.CurrentLogLevel <= LogLevel.Normal) LogHelper.LogWarning("Only owner can invoke ServerRPC that is marked to require ownership: " + method);
 
                 return null;
             }
