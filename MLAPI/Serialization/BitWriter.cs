@@ -1,4 +1,4 @@
-﻿#define ARRAY_WRITE_PERMISSIVE  // Allow attempt to write "packed" byte array (calls WriteByteArray())
+#define ARRAY_WRITE_PERMISSIVE  // Allow attempt to write "packed" byte array (calls WriteByteArray())
 #define ARRAY_RESOLVE_IMPLICIT  // Include WriteArray() method with automatic type resolution
 #define ARRAY_WRITE_PREMAP      // Create a prefixed array diff mapping
 #define ARRAY_DIFF_ALLOW_RESIZE // Whether or not to permit writing diffs of differently sized arrays
@@ -47,11 +47,14 @@ namespace MLAPI.Serialization
         /// <param name="value">The object to write</param>
         public void WriteObjectPacked(object value)
         {
-            if (value == null || value.GetType().IsNullable())
-            {
-                WriteBool(value == null);
+            // Check unitys custom null checks
+            bool isNull = value == null || (value is UnityEngine.Object && ((UnityEngine.Object)value) == null);
 
-                if (value == null)
+            if (isNull || value.GetType().IsNullable())
+            {
+                WriteBool(isNull);
+
+                if (isNull)
                 {
                     return;
                 }
@@ -189,6 +192,10 @@ namespace MLAPI.Serialization
                 {
                     throw new ArgumentException("BitWriter cannot write GameObject types that does not has a NetworkedObject component attached. GameObject: " + ((GameObject)value).name);
                 }
+                else if (!networkedObject.IsSpawned)
+                {
+                    throw new ArgumentException("BitWriter cannot write NetworkedObject types that are not spawned. GameObject: " + ((GameObject)value).name);
+                }
                 else
                 {
                     WriteUInt64Packed(networkedObject.NetworkId);
@@ -197,11 +204,21 @@ namespace MLAPI.Serialization
             }
             else if (value is NetworkedObject)
             {
+                if (!((NetworkedObject)value).IsSpawned)
+                {
+                    throw new ArgumentException("BitWriter cannot write NetworkedObject types that are not spawned. GameObject: " + ((GameObject)value).name);
+                }
+
                 WriteUInt64Packed(((NetworkedObject)value).NetworkId);
                 return;
             }
             else if (value is NetworkedBehaviour)
             {
+                if (!((NetworkedBehaviour)value).HasNetworkedObject || !((NetworkedBehaviour)value).NetworkedObject.IsSpawned)
+                {
+                    throw new ArgumentException("BitWriter cannot write NetworkedBehaviour types that are not spawned. GameObject: " + ((GameObject)value).name);
+                }
+
                 WriteUInt64Packed(((NetworkedBehaviour)value).NetworkId);
                 WriteUInt16Packed(((NetworkedBehaviour)value).GetBehaviourId());
                 return;

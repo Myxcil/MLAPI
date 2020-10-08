@@ -51,24 +51,11 @@ namespace MLAPI.Messaging
         {
             if (!NetworkingManager.Singleton.IsServer)
             {
-                if (LogHelper.CurrentLogLevel <= LogLevel.Error) LogHelper.LogWarning("Can not send unnamed messages to multiple users as a client");
+                if (NetworkLog.CurrentLogLevel <= LogLevel.Error) NetworkLog.LogWarning("Can not send unnamed messages to multiple users as a client");
                 return;
             }
 
-            if (clientIds == null)
-            {
-                for (int i = 0; i < NetworkingManager.Singleton.ConnectedClientsList.Count; i++)
-                {
-                    InternalMessageSender.Send(NetworkingManager.Singleton.ConnectedClientsList[i].ClientId, MLAPIConstants.MLAPI_UNNAMED_MESSAGE, string.IsNullOrEmpty(channel) ? "MLAPI_DEFAULT_MESSAGE" : channel, stream, security, null);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < clientIds.Count; i++)
-                {
-                    InternalMessageSender.Send(clientIds[i], MLAPIConstants.MLAPI_UNNAMED_MESSAGE, string.IsNullOrEmpty(channel) ? "MLAPI_DEFAULT_MESSAGE" : channel, stream, security, null);
-                }
-            }
+            InternalMessageSender.Send(MLAPIConstants.MLAPI_UNNAMED_MESSAGE, string.IsNullOrEmpty(channel) ? "MLAPI_DEFAULT_MESSAGE" : channel, clientIds, stream, security, null);
         }
 
         /// <summary>
@@ -212,23 +199,11 @@ namespace MLAPI.Messaging
 
                 if (!NetworkingManager.Singleton.IsServer)
                 {
-                    if (LogHelper.CurrentLogLevel <= LogLevel.Error) LogHelper.LogWarning("Can not send named messages to multiple users as a client");
+                    if (NetworkLog.CurrentLogLevel <= LogLevel.Error) NetworkLog.LogWarning("Can not send named messages to multiple users as a client");
                     return;
                 }
-                if (clientIds == null)
-                {
-                    for (int i = 0; i < NetworkingManager.Singleton.ConnectedClientsList.Count; i++)
-                    {
-                        InternalMessageSender.Send(NetworkingManager.Singleton.ConnectedClientsList[i].ClientId, MLAPIConstants.MLAPI_NAMED_MESSAGE, string.IsNullOrEmpty(channel) ? "MLAPI_DEFAULT_MESSAGE" : channel, messageStream, security, null);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < clientIds.Count; i++)
-                    {
-                        InternalMessageSender.Send(clientIds[i], MLAPIConstants.MLAPI_NAMED_MESSAGE, string.IsNullOrEmpty(channel) ? "MLAPI_DEFAULT_MESSAGE" : channel, messageStream, security, null);
-                    }
-                }
+
+                InternalMessageSender.Send(MLAPIConstants.MLAPI_NAMED_MESSAGE, string.IsNullOrEmpty(channel) ? "MLAPI_DEFAULT_MESSAGE" : channel, clientIds, messageStream, security, null);
             }
         }
         #endregion
